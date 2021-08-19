@@ -1,0 +1,6 @@
+gitpod /workspace/heatmap $ git add -A
+gitpod /workspace/heatmap $ git commit -m "first commit"
+[main dcc53c4] first commit
+ 4 files changed, 1 insertion(+), 7 deletions(-)
+gitpod /workspace/heatmap $ git branch -M main
+gitpod /workspace/heatmap $ git push -u origin main

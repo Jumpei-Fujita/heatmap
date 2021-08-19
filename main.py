@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 from user_heatmap import get_heatmap, get_starmap, get_heat_matrix, get_aspectmap
 
-
+st.write('店舗画面')
 file = st.file_uploader("ファイルアップロード", type='csv')
 if file is not None:
     file = pd.read_csv(file)
