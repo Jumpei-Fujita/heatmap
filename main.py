@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib as plt
-import seaborn as sns
 import streamlit as st
 import pandas as pd
 from user_heatmap import get_heatmap, get_starmap, get_heat_matrix, get_aspectmap
