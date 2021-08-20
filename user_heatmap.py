@@ -168,4 +168,110 @@ def get_aspectmap(reviews):
     fig.update_layout(height=800,width=700, title='星評価ヒートマップ')
     st.plotly_chart(fig)
 
+def get_seibetsu(reviews):
+    st.write('性別可視化円グラフ')
+    seibetsu_label = reviews['性別'].unique()
+    seibetsu = []
+    for s in seibetsu_label:
+        seibetsu.append(len(reviews[reviews['性別']==s]))
+    fig = go.Figure(go.Pie(
+        values = seibetsu,
+        labels = seibetsu_label,
+        texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
+        textposition = "inside"))
+    st.plotly_chart(fig)
 
+def get_shozoku(reviews):
+    st.write('所属可視化円グラフ')
+    shozoku_label = reviews['属性'].unique()
+    shozoku = []
+    for s in shozoku_label:
+        shozoku.append(len(reviews[reviews['属性']==s]))
+    fig = go.Figure(go.Pie(
+        values = shozoku,
+        labels = shozoku_label,
+        texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
+        textposition = "inside"))
+    st.plotly_chart(fig)
+
+def get_nenrei(reviews):
+    st.write('年齢可視化円グラフ')
+    reviews2 = reviews.copy()
+    for i in range(len(reviews)):
+        reviews2['年齢'][i] = int(reviews2['年齢'][i] / 10) * 10
+    age_label = reviews2['年齢'].unique()
+    age = []
+    for s in age_label:
+        age.append(len(reviews2[reviews2['年齢']==s]))
+    
+    age_label_str = []
+    for i in range(len(age_label)):
+        age_label_str.append(np.str(age_label[i])+'代')
+    
+    fig = go.Figure(go.Pie(
+        values = age,
+        labels = age_label_str,
+        texttemplate = "%{label}: %{value:,s}人 <br>(%{percent})",
+        textposition = "inside"))
+    st.plotly_chart(fig)
+
+
+def get_kyojuchi(reviews):
+    st.write('居住地可視化円グラフ')
+    shozoku_label = reviews['居住地'].unique()
+    shozoku = []
+    for s in shozoku_label:
+        shozoku.append(len(reviews[reviews['居住地']==s]))
+    
+    fig = go.Figure(go.Pie(
+        values = shozoku,
+        labels = shozoku_label,
+        texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
+        textposition = "inside"))
+    st.plotly_chart(fig)
+
+def get_hoshi(reviews):
+    st.write('星評価可視化円グラフ')
+    shozoku_label = reviews['星評価'].unique()
+    shozoku = []
+    for s in shozoku_label:
+        shozoku.append(len(reviews[reviews['星評価']==s]))
+    shozoku_label_str = []
+    for i in range(len(shozoku_label)):
+        shozoku_label_str.append('⭐️'+np.str(shozoku_label[i]))
+
+
+    fig = go.Figure(go.Pie(
+        values = shozoku,
+        labels = shozoku_label_str,
+        texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
+        textposition = "inside"))
+    st.plotly_chart(fig)
+
+def get_sentiment_bar(reviews):
+
+    sentiment_rate = []
+    for a in aspects:
+        n_len = len(reviews[reviews[a] == "negative"]) + 1
+        p_len = len(reviews[reviews[a] == "positive"]) + 1
+        sentiment_rate.append((200*p_len/(p_len+n_len))-100)
+    #df = pd.DataFrame(sentiment_rate, index=aspects_japanese)
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=sentiment_rate,
+                     y=aspects_japanese,
+                     #marker_color='#87cefa',
+                     textfont={'color': '#87cefa'},
+                     name='項目別店舗評価'),
+    )
+    fig.update_traces(textposition='outside',
+                     orientation='h')
+    fig.update_layout(title='項目別店舗評価',
+                  legend=dict(orientation='h',
+                              xanchor='right',
+                              x=1,
+                              yanchor='bottom',
+                              y=1.05),
+                  width=800, 
+                  height=600,
+                  )
+    st.plotly_chart(fig)
