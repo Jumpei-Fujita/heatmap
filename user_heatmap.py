@@ -240,8 +240,10 @@ def get_hoshi(reviews):
     for i in range(len(shozoku_label)):
         shozoku_label_str.append('⭐️'+np.str(shozoku_label[i]))
 
-    shozoku, shozoku_label_str = sort_v(shozoku, shozoku_label_str)
+ 
     fig = go.Figure(go.Pie(
+        sort=True,
+        direction ='clockwise', 
         values = shozoku,
         labels = shozoku_label_str,
         texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
@@ -276,8 +278,4 @@ def get_sentiment_bar(reviews):
                   )
     st.plotly_chart(fig)
         
-def sort_v(values, labels):
-    values = np.array(values)
-    labels = np.array(labels)
-    arg_arr = np.argsort(values)
-    return values[arg_arr][::-1], labels[arg_arr][::-1]
+
