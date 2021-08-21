@@ -277,5 +277,7 @@ def get_sentiment_bar(reviews):
     st.plotly_chart(fig)
         
 def sort_v(values, labels):
+    values = np.array(values)
+    labels = np.array(labels)
     arg_arr = np.argsort(values)
     return values[arg_arr][::-1], labels[arg_arr][::-1]
