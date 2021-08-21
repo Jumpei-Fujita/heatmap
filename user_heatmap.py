@@ -175,6 +175,8 @@ def get_seibetsu(reviews):
     for s in seibetsu_label:
         seibetsu.append(len(reviews[reviews['性別']==s]))
     fig = go.Figure(go.Pie(
+        sort=True,
+        direction ='clockwise', 
         values = seibetsu,
         labels = seibetsu_label,
         texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
@@ -188,6 +190,8 @@ def get_shozoku(reviews):
     for s in shozoku_label:
         shozoku.append(len(reviews[reviews['属性']==s]))
     fig = go.Figure(go.Pie(
+        sort=True,
+        direction ='clockwise', 
         values = shozoku,
         labels = shozoku_label,
         texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
@@ -209,6 +213,8 @@ def get_nenrei(reviews):
         age_label_str.append(np.str(age_label[i])+'代')
     
     fig = go.Figure(go.Pie(
+        sort=True,
+        direction ='clockwise', 
         values = age,
         labels = age_label_str,
         texttemplate = "%{label}: %{value:,s}人 <br>(%{percent})",
@@ -224,6 +230,8 @@ def get_kyojuchi(reviews):
         shozoku.append(len(reviews[reviews['居住地']==s]))
     
     fig = go.Figure(go.Pie(
+        sort=True,
+        direction ='clockwise', 
         values = shozoku,
         labels = shozoku_label,
         texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
