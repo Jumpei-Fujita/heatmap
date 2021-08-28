@@ -45,16 +45,16 @@ def get_heat_matrix(reviews):
         heat_matrix[data[seibetsu], data[age]] += 1
     return heat_matrix
     
-def get_heatmap(reviews, heat_matrix, col):
+def get_heatmap(reviews, heat_matrix):
     
     df = pd.DataFrame(data=heat_matrix, columns=columns, index=indexes)
     fig = go.Figure()
     fig.add_trace(go.Heatmap(z=df, x=df.columns, y=df.index, colorscale='blues'))
-    fig.update_layout(height=350, width=400, title='客層ヒートマップ')
-    col.plotly_chart(fig)
+    fig.update_layout(height=700, width=700, title='客層ヒートマップ')
+    st.plotly_chart(fig, use_container_width=True)
 
 
-def get_starmap(reviews, col, heat_matrix=None):
+def get_starmap(reviews, heat_matrix=None):
     
     s_m_5 = np.zeros((5, 18))
     for i in range(len(reviews)):
@@ -84,10 +84,10 @@ def get_starmap(reviews, col, heat_matrix=None):
     
     fig = go.Figure()
     fig.add_trace(go.Heatmap(z=s_map, x=s_map.columns, y=s_map.index, colorscale='blues'))
-    fig.update_layout(height=350, width=400, title='星評価ヒートマップ')
-    col.plotly_chart(fig)
+    fig.update_layout(height=600, width=700, title='星評価ヒートマップ')
+    st.plotly_chart(fig, use_container_width=True)
 
-def get_aspectmap(reviews, col):
+def get_aspectmap(reviews):
     reviews2 = reviews.copy()
     for i in range(len(reviews)):
         reviews2['年齢'][i] = int(reviews2['年齢'][i] / 10) * 10
@@ -165,10 +165,10 @@ def get_aspectmap(reviews, col):
     layout = Layout(plot_bgcolor='rgba(0,0,0,0)')
     fig = go.Figure(layout=layout)
     fig.add_trace(go.Heatmap(z=aspect_df, x=aspect_df.columns, y=aspect_df.index, colorscale='blues'))
-    fig.update_layout(height=350, width=400, title='星評価ヒートマップ')
-    col.plotly_chart(fig)
+    fig.update_layout(height=700, width=700, title='項目別ヒートマップ')
+    st.plotly_chart(fig, use_container_width=True)
 
-def get_seibetsu(reviews, col):
+def get_seibetsu(reviews, col, leg):
 
     seibetsu_label = reviews['性別'].unique()
     seibetsu = []
@@ -182,9 +182,11 @@ def get_seibetsu(reviews, col):
         texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
         textposition = "inside"))
     fig.update_layout(title='性別可視化円グラフ')
-    col.plotly_chart(fig)
+    if leg:
+        fig.update_layout(showlegend=False)
+    col.plotly_chart(fig, use_container_width=True)
 
-def get_shozoku(reviews, col):
+def get_shozoku(reviews, col, leg):
     
     shozoku_label = reviews['属性'].unique()
     shozoku = []
@@ -198,9 +200,11 @@ def get_shozoku(reviews, col):
         texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
         textposition = "inside"))
     fig.update_layout(title='所属可視化円グラフ')
-    col.plotly_chart(fig)
+    if leg:
+        fig.update_layout(showlegend=False)
+    col.plotly_chart(fig, use_container_width=True)
 
-def get_nenrei(reviews, col):
+def get_nenrei(reviews, col, leg):
 
     reviews2 = reviews.copy()
     for i in range(len(reviews)):
@@ -222,10 +226,12 @@ def get_nenrei(reviews, col):
         texttemplate = "%{label}: %{value:,s}人 <br>(%{percent})",
         textposition = "inside"))
     fig.update_layout(title='年齢可視化円グラフ')
-    col.plotly_chart(fig)
+    if leg:
+        fig.update_layout(showlegend=False)
+    col.plotly_chart(fig, use_container_width=True)
 
 
-def get_kyojuchi(reviews, col):
+def get_kyojuchi(reviews, col, leg):
 
     shozoku_label = reviews['居住地'].unique()
     shozoku = []
@@ -240,9 +246,11 @@ def get_kyojuchi(reviews, col):
         texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
         textposition = "inside"))
     fig.update_layout(title='居住地可視化円グラフ')
-    col.plotly_chart(fig)
+    if leg:
+        fig.update_layout(showlegend=False)
+    col.plotly_chart(fig, use_container_width=True)
 
-def get_hoshi(reviews, col):
+def get_hoshi(reviews, col, leg):
 
     shozoku_label = reviews['星評価'].unique()
     shozoku = []
@@ -261,9 +269,11 @@ def get_hoshi(reviews, col):
         texttemplate = "%{label}: %{value:s}人 <br>(%{percent})",
         textposition = "inside"))
     fig.update_layout(title='星評価可視化円グラフ')
-    col.plotly_chart(fig)
+    if leg:
+        fig.update_layout(showlegend=False)
+    col.plotly_chart(fig, use_container_width=True)
 
-def get_sentiment_bar(reviews, col):
+def get_sentiment_bar(reviews):
 
     sentiment_rate = []
     for a in aspects:
@@ -290,6 +300,6 @@ def get_sentiment_bar(reviews, col):
                   height=600,
                   )
 
-    col.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
         
 
