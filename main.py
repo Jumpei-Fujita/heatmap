@@ -8,37 +8,47 @@ file = st.file_uploader("ファイルアップロード", type='csv')
 if file is not None:
     file = pd.read_csv(file)
     st.dataframe(file)
-    v1 = st.button('客層ヒートマップ可視化')
     
     heat_matrix = get_heat_matrix(file)
-    if v1:
-        heat_matrix = get_heatmap(file, heat_matrix)
-    v2 = st.button('星評価ヒートマップ可視化')
-    if v2:
-        get_starmap(file, heat_matrix)
-    v3 = st.button('属性項目可視化マップ')
-    if v3:
-        get_aspectmap(file)
-    v4 = st.button('来客者性別情報円グラフ')
-    if v4:
-        get_seibetsu(file)
-    v5 = st.button('来客者所属情報円グラフ')
-    if v5:
-        get_shozoku(file)
-    v6 = st.button('来客者年齢情報円グラフ')
-    if v6:
-        get_nenrei(file)
-    v7 = st.button('来客者居住地情報円グラフ')
-    if v7:
-        get_kyojuchi(file)
-    v8 = st.button('来客者星評価情報円グラフ')
-    if v8:
-        get_hoshi(file)
-    v9 = st.button('項目別店舗評価')
-    if v9:
-        get_sentiment_bar(file)
-        
 
-
+    options = st.multiselect(
+    '可視化する図を選んでください',
+    ['客層ヒートマップ', '星評価ヒートマップ', '属性項目可視化マップ', '来客者性別情報円グラフ', '来客者所属情報円グラフ', '来客者年齢情報円グラフ', '来客者居住地情報円グラフ', '来客者星評価情報円グラフ', '項目別店舗評価'])
     
+    left_column, _, _, _, _, _, _, _, _, right_column = st.columns(10)
+    column_map = {}
+    for i in range(len(options)):
+        if i % 2 == 0:
+            column_map[options[i]] = left_column
+        else:
+            column_map[options[i]] = right_column
+
+    if '客層ヒートマップ' in options:
+        get_heatmap(file, heat_matrix, column_map['客層ヒートマップ'])
+
+    if '星評価ヒートマップ' in options:
+        get_starmap(file, column_map['星評価ヒートマップ'], heat_matrix)
+
+    if '属性項目可視化マップ' in options:
+        get_aspectmap(file, column_map['属性項目可視化マップ'])
+
+    if '来客者性別情報円グラフ' in options:
+        get_seibetsu(file, column_map['来客者性別情報円グラフ'])
+    
+    if '来客者所属情報円グラフ' in options:
+        get_shozoku(file, column_map['来客者所属情報円グラフ'])
+    
+    if '来客者年齢情報円グラフ' in options:
+        get_nenrei(file, column_map['来客者年齢情報円グラフ'])
+    
+    if '来客者居住地情報円グラフ' in options:
+        get_kyojuchi(file, column_map['来客者居住地情報円グラフ'])
+    
+    if '来客者星評価情報円グラフ' in options:
+        get_hoshi(file, column_map['来客者星評価情報円グラフ'])
+    
+    if '項目別店舗評価' in options:
+        get_sentiment_bar(file, column_map['項目別店舗評価'])
+
+
     
